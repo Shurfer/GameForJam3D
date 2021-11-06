@@ -16,6 +16,9 @@ public class Enemy : MonoBehaviour
     private bool setDamage;
    // public Rigidbody rig;
    public NavMeshAgent agent;
+
+   public Dialog dialogSc;
+   
     private void OnTriggerEnter(Collider other)
     {
         if (move && other.tag == "PlayerHealth")
@@ -23,14 +26,15 @@ public class Enemy : MonoBehaviour
             animator.Play("punch");
         }
         
-        if (other.tag == "PlayerHealth")
+        if (!move && other.tag == "PlayerHealth")
         {
             animator.enabled = true;
             playerTr = other.transform;
             move = true;
+            animator.Play("run");
             boxColl.enabled = false;
             capsColl.enabled = true;
-           
+            dialogSc.DialogActivate(1);
             playerHealth = other.gameObject.GetComponent<PlayerHealth>();
         }
     }
