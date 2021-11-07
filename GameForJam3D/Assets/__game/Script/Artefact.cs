@@ -9,9 +9,13 @@ public class Artefact : MonoBehaviour
     private bool player;
      Dialog dialogSc;
 
-    private void Start()
-    {
-        dialogSc = FindObjectOfType<Dialog>();
+     public bool tablet;
+     
+     private SoundManager soundManager;
+     private void Start()
+     {
+         soundManager = FindObjectOfType<SoundManager>();
+         dialogSc = FindObjectOfType<Dialog>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -27,6 +31,9 @@ public class Artefact : MonoBehaviour
         if (player && Input.GetKeyDown(KeyCode.E))
         {
             dialogSc.ArtefactCatch();
+            soundManager.PlayerHealthUp();
+            if(tablet)
+                dialogSc.DialogActivate(7);
             Destroy(gameObject);
         }
     }

@@ -12,7 +12,7 @@ public class HealthPack : MonoBehaviour
         {
             PlayerHealth  playerHealth = other.gameObject.GetComponent<PlayerHealth>();
             playerHealth.GetHealthUp(healthPlus);
-            Destroy(gameObject);
+            Destroy(transform.parent.gameObject);
         }
     }
     

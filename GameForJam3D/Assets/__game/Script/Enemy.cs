@@ -26,9 +26,10 @@ public class Enemy : MonoBehaviour
     public Vector3 endPoint; // конечная точка движения
     public Transform centrTr; // центр левела - для создания рандомной точки на меше
     public bool inRoom;
-
+    private SoundManager soundManager;
     private void Start()
     {
+        soundManager = FindObjectOfType<SoundManager>();
         if (inRoom)
             ChangePointPos();
     }
@@ -88,6 +89,8 @@ public class Enemy : MonoBehaviour
             boxColl.enabled = false;
             capsColl.enabled = true;
             dialogSc.DialogActivate(1);
+            if(inRoom)
+                dialogSc.DialogActivate(10);
             playerHealth = other.gameObject.GetComponent<PlayerHealth>();
         }
 
@@ -96,14 +99,29 @@ public class Enemy : MonoBehaviour
             health--;
             animator.Play("hit");
             hit = true;
+            soundManager.EnemyHit();
             if (health <= 0)
             {
                 nockOut = true;
                 move = false;
                 capsColl.enabled = false;
                 animator.Play("fall");
+                StartCoroutine(checkAnimation());
             }
         }
+    }
+    
+    IEnumerator checkAnimation()
+    {
+        yield return new WaitForSeconds(0.5f);
+       if(!animator.GetCurrentAnimatorStateInfo(0).IsName("fall"))
+       {
+           nockOut = true;
+           move = false;
+           capsColl.enabled = false;
+           animator.Play("fall");
+           StartCoroutine(checkAnimation());
+       }
     }
 
     private bool hit;

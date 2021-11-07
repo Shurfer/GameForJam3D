@@ -53,10 +53,14 @@ public class PlayerHealth : MonoBehaviour
         healthText.text = health.ToString();
         damageImage.SetActive(true);
         StartCoroutine(damageOff());
-        if (health <= 0)
+        if (!boss && health <= 0)
+        {
+            health = 0;
             triggerPos.ResetPlayerPosition(resetPosition);
-          //  SceneManager.LoadScene("1");
+        }
     }
+
+    public bool boss;
 
     public Vector3 resetPosition;
     public TriggerRestPosition triggerPos;
@@ -77,9 +81,13 @@ public class PlayerHealth : MonoBehaviour
         if (num == 0)
             cardNum++;
         if (cardNum == 2 && insultapeCatch)
+        {
             doorMayOpen = true;
+            dialog.KeyCardCatch();
+        }
     }
 
+    public Dialog dialog;
     public bool doorMayOpen;
 
     IEnumerator damageOff()
@@ -119,7 +127,7 @@ public class PlayerHealth : MonoBehaviour
 
     IEnumerator armBack()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.5f);
         armTr.localPosition -= new Vector3(0, 0, 0.5f);
         armColl.enabled = false;
         atackArm = false;
@@ -148,6 +156,7 @@ public class PlayerHealth : MonoBehaviour
                 soundManager.ObjectPickUp();
                 objMayCatch = false;
                 objCatchTr.SetParent(playerTr);
+                objCatchTr.gameObject.GetComponent<BoxCollider>().enabled = false;
                 if (objCatchTr.localPosition.y < 0)
                     objCatchTr.localPosition = new Vector3(0.25f, 0.33f, 1.5f);
                 objCatchTr.gameObject.GetComponent<Rigidbody>().useGravity = false;
@@ -158,6 +167,7 @@ public class PlayerHealth : MonoBehaviour
             {
                 soundManager.ObjectPickOff();
                 objCatchTr.parent = null;
+                objCatchTr.gameObject.GetComponent<BoxCollider>().enabled = true;
                 objCatchTr.gameObject.GetComponent<Rigidbody>().useGravity = true;
                 objCatch = false;
             }

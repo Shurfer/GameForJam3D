@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class SoundManager : MonoBehaviour
 {
@@ -13,6 +15,18 @@ public class SoundManager : MonoBehaviour
     public AudioClip objPickOff;
     public AudioClip resetPos;
     public AudioClip doorOpen;
+    public AudioClip enemyHit;
+    public AudioClip back2;
+    private void Start()
+    {
+        StartCoroutine(back2On());
+    }
+    
+    IEnumerator back2On()
+    {
+        yield return new WaitForSeconds(Random.Range(30,90));
+        audioSource.PlayOneShot(back2);
+    }
 
     public void PlayerGetDamage()
     {
@@ -47,5 +61,10 @@ public class SoundManager : MonoBehaviour
     public void DoorOpen()
     {
         audioSource.PlayOneShot(doorOpen);
+    }
+
+    public void EnemyHit()
+    {
+        audioSource.PlayOneShot(enemyHit);
     }
 }
