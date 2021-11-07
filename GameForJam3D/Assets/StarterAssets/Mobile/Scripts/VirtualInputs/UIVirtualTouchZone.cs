@@ -6,13 +6,10 @@ using UnityEngine.Events;
 
 public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
-
-    [Header("Rect References")]
-    public RectTransform containerRect;
+    [Header("Rect References")] public RectTransform containerRect;
     public RectTransform handleRect;
 
-    [Header("Settings")]
-    public bool clampToMagnitude;
+    [Header("Settings")] public bool clampToMagnitude;
     public float magnitudeMultiplier = 1f;
     public bool invertXOutputValue;
     public bool invertYOutputValue;
@@ -21,8 +18,7 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
     private Vector2 pointerDownPosition;
     private Vector2 currentPointerPosition;
 
-    [Header("Output")]
-    public UnityEvent<Vector2> touchZoneOutputEvent;
+    [Header("Output")] public UnityEvent<Vector2> touchZoneOutputEvent;
 
     void Start()
     {
@@ -31,18 +27,18 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     private void SetupHandle()
     {
-        if(handleRect)
+        if (handleRect)
         {
-            SetObjectActiveState(handleRect.gameObject, false); 
+            SetObjectActiveState(handleRect.gameObject, false);
         }
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(containerRect, eventData.position,
+            eventData.pressEventCamera, out pointerDownPosition);
 
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(containerRect, eventData.position, eventData.pressEventCamera, out pointerDownPosition);
-
-        if(handleRect)
+        if (handleRect)
         {
             SetObjectActiveState(handleRect.gameObject, true);
             UpdateHandleRectPosition(pointerDownPosition);
@@ -51,13 +47,13 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     public void OnDrag(PointerEventData eventData)
     {
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(containerRect, eventData.position,
+            eventData.pressEventCamera, out currentPointerPosition);
 
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(containerRect, eventData.position, eventData.pressEventCamera, out currentPointerPosition);
-        
         Vector2 positionDelta = GetDeltaBetweenPositions(pointerDownPosition, currentPointerPosition);
 
         Vector2 clampedPosition = ClampValuesToMagnitude(positionDelta);
-        
+
         Vector2 outputPosition = ApplyInversionFilter(clampedPosition);
 
         OutputPointerEventValue(outputPosition * magnitudeMultiplier);
@@ -70,7 +66,7 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
 
         OutputPointerEventValue(Vector2.zero);
 
-        if(handleRect)
+        if (handleRect)
         {
             SetObjectActiveState(handleRect.gameObject, false);
             UpdateHandleRectPosition(Vector2.zero);
@@ -104,12 +100,12 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     Vector2 ApplyInversionFilter(Vector2 position)
     {
-        if(invertXOutputValue)
+        if (invertXOutputValue)
         {
             position.x = InvertValue(position.x);
         }
 
-        if(invertYOutputValue)
+        if (invertYOutputValue)
         {
             position.y = InvertValue(position.y);
         }
@@ -121,5 +117,4 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
     {
         return -value;
     }
-    
 }

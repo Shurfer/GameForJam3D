@@ -15,7 +15,7 @@ public class Spear : MonoBehaviour
     void FixedUpdate()
     {
         if(move)
-        transform.position += new Vector3(0, 0, -speed*Time.fixedDeltaTime);
+        transform.position += new Vector3(speed*Time.fixedDeltaTime, 0, 0);
     }
     
     

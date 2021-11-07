@@ -45,7 +45,51 @@ public class Dialog : MonoBehaviour
         dialogCanvas.SetActive(false);
     }
 
+    public GameObject artefactText;
+    public Text artefactCountText;
+    private int artefactCount;
+    
+    public void ArtefactCatch()
+    {
+        artefactCount++;
+        artefactCountText.text = artefactCount.ToString();
+        artefactText.SetActive(true);
+        StartCoroutine(artefactTextOff());
+    }
+    
+    IEnumerator artefactTextOff()
+    {
+        yield return new WaitForSeconds(3f);
+        artefactText.SetActive(false);
+    }
 
+    public void CardKeyUp()
+    {
+        cardKeyTextGo.SetActive(true);
+        StartCoroutine(CardKeyOFF());
+    }
+    
+    IEnumerator CardKeyOFF()
+    {
+        yield return new WaitForSeconds(3f);
+        cardKeyTextGo.SetActive(false);
+    }
+
+    public GameObject cardKeyTextGo;
+    
+    public void InsultapeUp()
+    {
+        insultapeTextGo.SetActive(true);
+        StartCoroutine(insultapeOFF());
+    }
+    
+    IEnumerator insultapeOFF()
+    {
+        yield return new WaitForSeconds(3f);
+        insultapeTextGo.SetActive(false);
+    }
+
+    public GameObject insultapeTextGo;
     private void Update()
     {
         if(dialogActive && Input.GetKeyDown(KeyCode.Return))

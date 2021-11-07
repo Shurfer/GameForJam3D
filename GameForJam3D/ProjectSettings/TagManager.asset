@@ -9,6 +9,10 @@ TagManager:
   - Catch
   - Door
   - HealthPack
+  - Artefact
+  - Trap
+  - AttackArm
+  - Card
   layers:
   - Default
   - TransparentFX
