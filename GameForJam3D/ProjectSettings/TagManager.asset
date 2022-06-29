@@ -11,8 +11,8 @@ TagManager:
   - HealthPack
   - Artefact
   - Trap
-  - AttackArm
   - Card
+  - Interactive
   layers:
   - Default
   - TransparentFX
@@ -24,20 +24,20 @@ TagManager:
   - 
   - 
   - 
+  - PlayerHealth
+  - PlayerHand
   - 
   - 
   - 
   - 
   - 
+  - Enemy
   - 
   - 
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
+  - InteractiveObject
   - 
   - 
   - 
